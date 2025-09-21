@@ -24,4 +24,24 @@
     * /api/categories - Delete one - DELETE
 
 > Non-Functional
-* Use Solid Principles
+- Use SOLID principles and organize code into NestJS modules following best practices.
+- Deploy backend and database online (free-tier: Render/Vercel/Railway + Supabase/Neon).
+- Write clean, maintainable code with consistent naming.
+- Ensure all CRUD operations are efficient and well-optimized
+- Use Git with clear, frequent commit messages.
+
+#### Project Overview
+Lets understand how the project is supposed to run
+- First make sure you have cloned the repo correctly.
+- Then just download the dependencies using npm i (use --legacy-peer-deps to resolve the packgages in order to their mutual dependency)
+- Then head to the `/auth/signin` to login. Mind you must confirm the gmail.
+- Next use the token with the request interceptor (I recommend), and do the rest testing with `/api/docs`
+- After that, just make sure you have created the categories first cz it will be need when creating the product.
+
+This way you will get the project running fine.
+
+#### Notes
+* This project does not take the testing part into consideration hence the files for testing isn't generated as well.
+* This project assumes the scope of the excercise to be limited and can be stretched further if needed in the future.
+* All the features are implemented with the constraints.
+* Any suggestion will be taken into consideration, thereafter.
