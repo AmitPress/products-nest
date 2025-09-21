@@ -1,5 +1,6 @@
-# Product Application
-
+# Product Application (live at: [OnRender :)](https://products-nest.onrender.com/api/docs))
+> Base Url: https://products-nest.onrender.com
+> Swagger Playground: https://products-nest.onrender.com/api/docs
 #### Project Requirements
 > Functional
 - User Management System with authentication
