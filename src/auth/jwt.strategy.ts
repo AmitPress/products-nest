@@ -18,7 +18,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
 
   async validate(req: any): Promise<any> {
     try {
-      console.log('🔍 JWT Strategy - Starting validation');
       
       // Extract token from Authorization header
       const authHeader = req.headers.authorization;
@@ -27,7 +26,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       }
       
       const token = authHeader.substring(7); // Remove 'Bearer ' prefix
-      
+
 
       // Verify with Supabase using the token
       const { data: { user }, error } = await this.supabaseService
