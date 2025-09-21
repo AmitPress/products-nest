@@ -137,7 +137,7 @@ export class AuthService {
 
   async verifyJwtToken(token: string) {
     try {
-      const decoded = jwt.verify(token, process.env.SUPABASE_JWT_SECRET!);
+      const decoded = jwt.verify(token, process.env.JWT_SECRET!);
       return { valid: true, payload: decoded };
     } catch (error) {
       return { valid: false, error: error.message };

@@ -1,23 +1,53 @@
 import { Controller, Post, Body, UseGuards, Request, Get, HttpCode, HttpStatus } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiBody } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiBody, ApiProperty } from '@nestjs/swagger';
 import { AuthService, AuthResponse } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 
 export class SignUpDto {
+  @ApiProperty({
+    description: 'User email address',
+    example: 'user@example.com',
+    format: 'email',
+  })
   email: string;
+
+  @ApiProperty({
+    description: 'User password (minimum 6 characters)',
+    example: 'password123',
+    minLength: 6,
+  })
   password: string;
 }
 
 export class SignInDto {
+  @ApiProperty({
+    description: 'User email address',
+    example: 'user@example.com',
+    format: 'email',
+  })
   email: string;
+
+  @ApiProperty({
+    description: 'User password',
+    example: 'password123',
+  })
   password: string;
 }
 
 export class RefreshTokenDto {
+  @ApiProperty({
+    description: 'Refresh token',
+    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+  })
   refresh_token: string;
 }
 
 export class ResetPasswordDto {
+  @ApiProperty({
+    description: 'User email address for password reset',
+    example: 'user@example.com',
+    format: 'email',
+  })
   email: string;
 }
 

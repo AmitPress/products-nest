@@ -12,9 +12,11 @@ import {
   ParseFilePipe,
   MaxFileSizeValidator,
   FileTypeValidator,
+  UseGuards,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiTags, ApiOperation, ApiResponse, ApiConsumes, ApiBody } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiConsumes, ApiBody, ApiBearerAuth } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -22,6 +24,8 @@ import { ProductQueryDto } from './dto/product-query.dto';
 
 @ApiTags('Products')
 @Controller('products')
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth('JWT-auth')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
@@ -63,8 +67,66 @@ export class ProductsController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get all products' })
-  @ApiResponse({ status: 200, description: 'Returns all products' })
+  @ApiOperation({ 
+    summary: 'Get all products',
+    description: `
+      Retrieve products with optional filtering and pagination.
+      
+      **Query Parameters:**
+      - \`categoryId\`: Filter by category ID
+      - \`minPrice\`: Minimum price filter
+      - \`maxPrice\`: Maximum price filter  
+      - \`page\`: Page number for pagination (default: 1)
+      - \`limit\`: Items per page (default: 10, max: 100)
+      
+      **Examples:**
+      - \`/api/products?categoryId=123\` - Get products in category 123
+      - \`/api/products?minPrice=10&maxPrice=100\` - Get products between $10-$100
+      - \`/api/products?page=2&limit=20\` - Get page 2 with 20 items per page
+    `
+  })
+  @ApiResponse({ 
+    status: 200, 
+    description: 'Returns paginated products with filtering',
+    schema: {
+      type: 'object',
+      properties: {
+        products: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              id: { type: 'string' },
+              name: { type: 'string' },
+              description: { type: 'string' },
+              price: { type: 'number' },
+              picture: { type: 'string', nullable: true },
+              category: {
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                  name: { type: 'string' },
+                  description: { type: 'string' },
+                },
+              },
+              createdAt: { type: 'string', format: 'date-time' },
+              updatedAt: { type: 'string', format: 'date-time' },
+            },
+          },
+        },
+        pagination: {
+          type: 'object',
+          properties: {
+            page: { type: 'number' },
+            limit: { type: 'number' },
+            total: { type: 'number' },
+            pages: { type: 'number' },
+          },
+        },
+      },
+    },
+  })
+  @ApiResponse({ status: 400, description: 'Bad request - Invalid query parameters' })
   findAll(@Query() query: ProductQueryDto) {
     return this.productsService.findAll(query);
   }

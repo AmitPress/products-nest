@@ -7,8 +7,20 @@ async function bootstrap() {
 
   // Swagger configuration
   const config = new DocumentBuilder()
-    .setTitle('NestJS API')
-    .setDescription('The NestJS API documentation')
+    .setTitle('Product Management API')
+    .setDescription(`
+      A comprehensive product management system with user authentication, product catalog, and category management.
+      
+      ## Features
+      - **User Authentication**: Register, login, and logout with JWT tokens
+      - **Product Management**: CRUD operations for products with image upload
+      - **Category Management**: CRUD operations for product categories
+      - **Advanced Filtering**: Filter products by category, price range, and pagination
+      - **File Upload**: Support for product images via Supabase Storage
+      
+      ## Authentication
+      Most endpoints require authentication. Use the login endpoint to get a JWT token, then include it in the Authorization header as "Bearer {token}".
+    `)
     .setVersion('1.0')
     .addBearerAuth(
       {
@@ -21,6 +33,9 @@ async function bootstrap() {
       },
       'JWT-auth',
     )
+    .addTag('Authentication', 'User authentication endpoints')
+    .addTag('Products', 'Product management endpoints')
+    .addTag('Categories', 'Category management endpoints')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
