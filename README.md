@@ -1,6 +1,8 @@
 # Product Application (live at: [OnRender :)](https://products-nest.onrender.com/api/docs))
 > Base Url: https://products-nest.onrender.com
 > Swagger Playground: https://products-nest.onrender.com/api/docs
+#### Overview
+In this project, user authentication is handled via the combination of supabase authentication and jwt passport strategy. And the basic implementations of products and categories are trial to the regular excercise.
 #### Project Requirements
 > Functional
 - User Management System with authentication
